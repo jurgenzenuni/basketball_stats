@@ -6,9 +6,16 @@
     <title>User Profile</title>
 </head>
 <body>
-    <h1>User Profile</h1>
-    <p><strong>Name:</strong> {{ user[1] }}</p> <!-- Assuming name is at index 1 in the tuple -->
-    <p><strong>Email:</strong> {{ user[2] }}</p> <!-- Assuming email is at index 2 in the tuple -->
-    <!-- Add more profile details as needed -->
+    <h1>User Profile (In development)</h1>
+    {% if session.logged_in %}
+    <p>Hello, {{ session.name }}!</p>
+  {% endif %}
+  <button>
+    <a href="/">Go Back</a>
+  </button>
+  <button>
+    <a href="/logout">Logout</a>
+  </button>
+
 </body>
 </html>

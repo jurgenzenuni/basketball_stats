@@ -2,15 +2,21 @@ import requests
 from bs4 import BeautifulSoup
 from flask import Flask, render_template, request, redirect, url_for, session
 import mysql.connector
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = Flask(__name__)
 
+app.secret_key = os.getenv('SECRET_KEY')
+
 # MySQL configurations
 db_config = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': '',
-    'database': 'user_system'
+    'host': os.getenv('DB_HOST'),
+    'user': os.getenv('DB_USER'),
+    'password': os.getenv('DB_PASSWORD'),
+    'database': os.getenv('DB_DATABASE'),
 }
 
 @app.route('/', methods=['GET', 'POST'])
@@ -81,6 +87,13 @@ def login():
 def logout():
     session.clear()  # Clear all session data
     return redirect(url_for('home'))
+
+@app.route('/profile')
+def profile():
+    if 'logged_in' in session and session['logged_in']:
+        return render_template('profile.html')
+    else:
+        return redirect(url_for('login'))
 
 def scrape_player_data(player_name):
     base_url = 'https://www.basketball-reference.com/players/'
